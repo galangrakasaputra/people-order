@@ -28,10 +28,13 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+            <li class="nav-item">
+                <a class="nav-link" href="/">
                     <span>Dashboard</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/produk">
+                    <span>Produk</span></a>
             </li>
 
         </ul>
@@ -239,16 +242,18 @@
 
           </nav>
           <div class="container-fluid">
-              @yield('beranda')
+              @yield('content')
           </div>
         </div>
       </div>
     </div>
-        @include('support.navbar')
-    
-        <div class="container">
-            @yield('content')
-        </div>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="js/sb-admin-2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>
