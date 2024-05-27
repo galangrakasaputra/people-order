@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\authController;
 use App\Http\Controllers\produkController;
 
 /*
@@ -19,3 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/produk', [produkController::class, 'index']);
+Route::post('/tambah-produk', [produkController::class, 'store']);
+Route::get('/login', [authController::class, 'login']);
+Route::get('/register', [authController::class, 'register']);
+Route::post('/post-regis', [authController::class, 'post_regist']);
