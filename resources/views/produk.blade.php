@@ -12,12 +12,52 @@
   <h5 class="alert-heading">{{ $sukses }}</h5>
 </div>
 @endif
+<div class="modal fade" id="loginDulu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <form method="get" action="/login">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Harap Login Terlebih Dahulu</h5>
+          </div>
+          <div class="modal-body">
+              <h6>Jika Anda ingin Membeli, Anda Harus Login Terlebih dahulu</h6>
+              @csrf
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#tambahProduk" style="float:right">
     Tambah Produk
 </button>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Produk</h1>
 </div>
+@foreach ($data as $item)   
+<div class="modal fade" id="hapusProduk_{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form method="post" action="/hapus-produk/{{$item->id}}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Yakin akan hapus?</h5>
+        </div>
+        <div class="modal-body">
+          @csrf
+          Tekan "Simpan" untuk melanjutkan proses Anda saat ini dengan <p style="color: #682773;">Produk : {{ $item->barang }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+@endforeach
 @foreach ($data as $item)
 <div class="modal fade" id="editProduk_{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -134,30 +174,47 @@
     <table class="table table-striped table-bordered" id="tableProduk">
         <thead>
             <tr>
+                <th scope="col">No</th>
                 <th scope="col">Id_barang</th>
                 <th scope="col">Barang</th>
                 <th scope="col">Jenis</th>
                 <th scope="col">Harga</th>
                 <th scope="col" style="width:1%">Tampilan</th>
-                @if(Auth()->user()->bagian == 'Admin')
-                    <th scope="col">Aksi</th>
-                @endif
+                <th scope="col">Aksi</th>
             </tr>
         </thead>
+        @php
+          $no = 1;
+        @endphp
         <tbody>
             @foreach ($data as $produk)
             <tr>
+                <td>{{ $no }}</td>
                 <td>{{ $produk->id }}</td>
                 <td>{{ $produk->barang }}</td>
                 <td>{{ $produk->jenis }}</td>
                 <td>{{ $produk->harga }}</td>
                 <td><img src="{{ $produk->gambar }}"></td>
+                @auth
                 @if(Auth()->user()->bagian == 'Admin')
                 <td>
                   <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editProduk_{{ $produk->id }}">Edit</button> | <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapusProduk_{{ $produk->id }}">Hapus</button>
                 </td>
+                @else
+                <td>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#beliProduk_{{ $produk->id }}">Beli</button>
+                </td>
                 @endif
+                @endauth
+                @guest
+                <td>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginDulu">Beli</button>
+                </td>
+                @endguest
             </tr>
+            @php
+              $no++;
+            @endphp
             @endforeach
         </tbody>
     </table>

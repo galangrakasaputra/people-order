@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/produk', [produkController::class, 'index']);
 Route::post('/tambah-produk', [produkController::class, 'store']);
 Route::post('/edit-produk/{id}', [produkController::class, 'edit']);
+Route::post('/hapus-produk/{id}', [produkController::class, 'hapus']);
 Route::get('/login', [authController::class, 'login']);
 Route::get('/register', [authController::class, 'register']);
 Route::post('/post-regis', [authController::class, 'post_regist']);

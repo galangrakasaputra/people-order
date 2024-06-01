@@ -78,4 +78,10 @@ class produkController extends Controller
             }
         }
     }
+
+    public function hapus($id){
+        DB::table('barang')->where('id', $id)->delete();
+        DB::table('harga')->where('id', $id)->delete();
+        return redirect()->back()->with('sukses', 'Produk Berhasil Dihapus');
+    }
 }
