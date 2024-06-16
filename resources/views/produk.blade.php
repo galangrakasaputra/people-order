@@ -238,10 +238,10 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Id_barang</th>
                 <th scope="col">Barang</th>
                 <th scope="col">Jenis</th>
                 <th scope="col">Harga</th>
+                <th scope="col">Jumlah Barang</th>
                 <th scope="col" style="width:1%">Tampilan</th>
                 <th scope="col">Aksi</th>
             </tr>
@@ -253,10 +253,10 @@
             @foreach ($data as $produk)
             <tr>
                 <td>{{ $no }}</td>
-                <td>{{ $produk->id }}</td>
                 <td>{{ $produk->barang }}</td>
                 <td>{{ $produk->jenis }}</td>
                 <td>{{ $produk->harga }}</td>
+                <td>{{ $produk->jumlah_barang }}</td>
                 <td><img src="{{ $produk->gambar }}"></td>
                 @auth
                 @if(Auth()->user()->bagian == 'Admin')
