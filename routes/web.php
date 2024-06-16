@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 Route::get('/produk', [produkController::class, 'index']);
 Route::post('/tambah-produk', [produkController::class, 'store']);
+Route::post('/beli-produk/{id}', [produkController::class, 'beli']);
 Route::post('/edit-produk/{id}', [produkController::class, 'edit']);
 Route::post('/hapus-produk/{id}', [produkController::class, 'hapus']);
 Route::get('/login', [authController::class, 'login']);

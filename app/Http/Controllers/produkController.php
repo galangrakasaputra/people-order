@@ -84,4 +84,27 @@ class produkController extends Controller
         DB::table('harga')->where('id', $id)->delete();
         return redirect()->back()->with('sukses', 'Produk Berhasil Dihapus');
     }
+
+    public function beli(Request $request,$idBarang){
+        // dd($idBarang);
+        $maxId = DB::table('sell')->max('id');
+        $id = $maxId+1;
+        DB::table('sell')->insert([
+            'id' => $id,
+            'nama_pembeli' => Auth()->user()->username,
+            'jenis' => $request->jenisBarangBeli,
+            'barang' => $request->barang,
+            'jumlah_beli' => $request->jumlahBeli,
+            'harga_total' => $request->hargaTotal,
+            'id_barang' => $idBarang
+        ]);
+
+        $barang = DB::table('barang')->where('id', $idBarang)->first();
+        $sisa = $barang->jumlah_barang - $request->jumlahBeli;
+        DB::table('barang')->where('id', $idBarang)->update([
+            'jumlah_barang' => $sisa
+        ]);
+
+        return redirect()->back()->with('sukses', 'Produk Berhasil Dibeli');
+    }
 }

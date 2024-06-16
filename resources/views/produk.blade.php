@@ -37,6 +37,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Produk</h1>
 </div>
+{{-- Hapus --}}
 @foreach ($data as $item)   
 <div class="modal fade" id="hapusProduk_{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -58,6 +59,7 @@
   </div>
 </div>
 @endforeach
+{{-- Beli --}}
 @foreach ($data as $item)
 <div class="modal fade" id="editProduk_{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -117,7 +119,68 @@
   </div>
 </div>
 @endforeach
+{{-- Edit --}}
+@foreach ($data as $item)
+<div class="modal fade" id="beliProduk_{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form method="post" action="/beli-produk/{{ $item->id }}" enctype="multipart/form-data">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Beli Produk</h5>
+        </div>
+        <div class="modal-body">
+          @csrf
+       <div class="form-group row">
+        <input type="hidden" name="namaPembeli" value="{{ Auth()->user()->username }}">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Barang</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Barang" name="barang" value="{{ $item->barang }}" readonly>
+                    </div>
+                  </div>
+        
+      <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Jenis Barang</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="jenisBarangBeli" value="{{ $item->jenis }}" readonly>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Harga</label>
+                      <div class="col-sm-9">
+                        <input type="number" class="form-control" id="hargaBarangBeli_{{ $item->id }}" placeholder="Rp. " value="{{ $item->harga }}" name="harga" readonly>
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Jumlah Barang</label>
+                      <div class="col-sm-9">
+                        <input type="number" class="form-control" id="jumlahBarang" value="{{ $item->jumlah_barang }}" name="jumlah" readonly>
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Jumlah yang dibeli</label>
+                      <div class="col-sm-9">
+                        <input type="number" class="form-control" id="jumlahBeli_{{ $item->id }}" max="{{ $item->jumlah_barang }}" min="1" name="jumlahBeli" onchange="hargaBeli({{$item->id}})" required>
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Harga Total</label>
+                    <div class="col-sm-9">
+                      {{-- <input type="file" class="form-control-file" name="gambar" value="{{ $item->gambar }}" required> --}}
+                      <input type="number" id="totalHarga_{{ $item->id }}" name="hargaTotal" readonly>
+                    </div>
+                  </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Beli</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+@endforeach
 
+{{-- Tambah --}}
 <div class="modal fade" id="tambahProduk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <form method="post" action="/tambah-produk" enctype="multipart/form-data">
@@ -219,5 +282,22 @@
         </tbody>
     </table>
 </div>
+
+<script>
+  // $(document).ready(function(){
+  //   console.log("masuk");
+  //   $('#jumlahBeli').on("input", function (angka){
+  //     var harga = $('#hargaBarangBeli').val();
+  //     let jumlah = this.value * harga; 
+  //     $('#totalHarga').val(jumlah);
+  //   });
+  // });
+  function hargaBeli(id){
+    let jumlahBeli = document.getElementById('jumlahBeli_'+id).value;
+    let harga = document.getElementById('hargaBarangBeli_'+id).value;
+    let hasil = jumlahBeli * harga;
+    $('#totalHarga_'+id).val(hasil);
+  }
+</script>
     
 @endsection
